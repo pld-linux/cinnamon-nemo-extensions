@@ -1,0 +1,9 @@
+--- nemo-extensions-4.6.0/nemo-python/nemo-python.pc.in.orig	2020-05-13 15:20:10.000000000 +0200
++++ nemo-extensions-4.6.0/nemo-python/nemo-python.pc.in	2020-05-19 20:02:37.356521024 +0200
+@@ -3,5 +3,5 @@
+ Version: @version@
+ 
+ prefix=@prefix@
+-libdir=${prefix}/lib
++libdir=@libdir@
+ pythondir=${prefix}/share/nemo-python/extensions
