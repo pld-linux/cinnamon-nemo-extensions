@@ -4,7 +4,7 @@ Summary:	Extensions for Nemo file manager
 Summary(pl.UTF-8):	Rozszerzenia zarządcy plików Nemo
 Name:		cinnamon-nemo-extensions
 Version:	4.6.0
-Release:	1
+Release:	2
 License:	GPL v2+, GPL v3+, LGPL v2
 Group:		X11/Applications
 #Source0Download: https://github.com/linuxmint/nemo-extensions/releases
@@ -85,7 +85,7 @@ Summary(pl.UTF-8):	Rozszerzenie Nemo o obsługę skryptów Pythona
 License:	GPL v2+
 Group:		X11/Libraries
 Requires:	cinnamon-nemo >= %{nemo_ver}
-Requires:	python3-pygobject >= 3
+Requires:	python3-pygobject3 >= 3
 
 %description -n cinnamon-nemo-python
 Python scripting extension for Nemo.
@@ -676,6 +676,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n cinnamon-nemo-extension-audio-tab
 %defattr(644,root,root,755)
 %{_datadir}/nemo-python/extensions/nemo-audio-tab.py
+%dir %{_datadir}/nemo-audio-tab
 %{_datadir}/nemo-audio-tab/nemo-audio-tab.glade
 %{py3_sitescriptdir}/nemo_audio_tab-%{version}-py*.egg-info
 
@@ -683,6 +684,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/nemo-compare-preferences
 %{_datadir}/nemo-python/extensions/nemo-compare.py
+%dir %{_datadir}/nemo-compare
 %{_datadir}/nemo-compare/nemo-compare-preferences.py
 %{_datadir}/nemo-compare/utils.py*
 %{py3_sitescriptdir}/nemo_compare-%{version}-py?.?.egg-info/
