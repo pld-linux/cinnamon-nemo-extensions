@@ -128,9 +128,7 @@ Requires:	%{name}-common = %{version}-%{release}
 Requires:	cinnamon-nemo-python = %{version}-%{release}
 Requires:	python3-mutagen
 Requires:	python3-pygobject3 >= 3.0
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n cinnamon-nemo-extension-audio-tab
 audio-tab is Nemo extension to view audio tag information from the
@@ -149,9 +147,7 @@ Requires:	%{name}-common = %{version}-%{release}
 Requires:	cinnamon-nemo-python = %{version}-%{release}
 Requires:	meld
 Requires:	python3-pygobject3 >= 3.0
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n cinnamon-nemo-extension-compare
 Simple Nemo file manager extension, inspired by the discontinued
@@ -190,9 +186,7 @@ Group:		X11/Applications
 Requires:	%{name}-common = %{version}-%{release}
 Requires:	cinnamon-nemo-python = %{version}-%{release}
 Requires:	python3-pygobject3 >= 3.0
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n cinnamon-nemo-extension-emblems
 Restores the emblems functionality that used to be in GNOME 2.
@@ -289,9 +283,7 @@ Requires:	hicolor-icon-theme
 Requires:	libnotify >= 0.7
 Requires:	pastebinit
 Requires:	python3-pygobject3 >= 3.0
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n cinnamon-nemo-extension-pastebin
 nemo-pastebin is an extension for the Nemo file manager, which allows
@@ -398,9 +390,7 @@ Requires:	gtk+3 >= 3.6
 Requires:	python3-pygobject3 >= 3.0
 Requires:	vte >= 0.38
 Requires:	xapps >= 1.0
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n cinnamon-nemo-extension-terminal
 Embedded terminal window for Nemo.
