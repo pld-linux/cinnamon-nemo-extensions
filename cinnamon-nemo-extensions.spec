@@ -1,18 +1,19 @@
 # TODO: make gtkhash.spec with https://github.com/tristanheaven/gtkhash
-%define		nemo_ver	4.6.0
+%define		nemo_ver	4.8.0
+%define		translations_version	4.8.3
 Summary:	Extensions for Nemo file manager
 Summary(pl.UTF-8):	Rozszerzenia zarządcy plików Nemo
 Name:		cinnamon-nemo-extensions
-Version:	4.6.0
-Release:	3
+Version:	4.8.0
+Release:	1
 License:	GPL v2+, GPL v3+, LGPL v2
 Group:		X11/Applications
 #Source0Download: https://github.com/linuxmint/nemo-extensions/releases
 Source0:	https://github.com/linuxmint/nemo-extensions/archive/%{version}/nemo-extensions-%{version}.tar.gz
-# Source0-md5:	9e923e27b402940735b81d39e07e99e4
+# Source0-md5:	06f3eff72b6d4eb667d3223a82d9b7a6
 #Source1Download: https://github.com/linuxmint/cinnamon-translations/releases
-Source1:	https://github.com/linuxmint/cinnamon-translations/archive/%{version}/cinnamon-translations-%{version}.tar.gz
-# Source1-md5:	2a7f336ad50c2ec8ec4e80a7acf5f899
+Source1:	https://github.com/linuxmint/cinnamon-translations/archive/%{translations_version}/cinnamon-translations-%{translations_version}.tar.gz
+# Source1-md5:	a68529f0f1a6c7f8b693a81095bece96
 Patch0:		%{name}-pc.patch
 Patch1:		%{name}-ac.patch
 URL:		https://github.com/linuxmint/nemo-extensions
@@ -46,7 +47,7 @@ BuildRequires:	libmusicbrainz5-devel
 BuildRequires:	libnotify-devel >= 0.7.0
 BuildRequires:	libtool >= 2:2
 BuildRequires:	linux-libc-headers >= 7:2.6.38
-BuildRequires:	meson
+BuildRequires:	meson >= 0.42.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	perl-XML-Parser
 BuildRequires:	pkgconfig >= 1:0.22
@@ -55,6 +56,7 @@ BuildRequires:	python3-devel >= 1:3.2
 BuildRequires:	python3-distutils-extra
 BuildRequires:	python3-pygobject3-devel >= 3.0
 BuildRequires:	python3-setuptools
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	xreader-devel
 BuildRequires:	zlib-devel
@@ -386,10 +388,10 @@ Group:		X11/Applications
 Requires(post,postun):	glib2 >= 1:2.38
 Requires:	%{name}-common = %{version}-%{release}
 Requires:	cinnamon-nemo-python = %{version}-%{release}
-Requires:	gtk+3 >= 3.6
+Requires:	gtk+3 >= 3.8.4
 Requires:	python3-pygobject3 >= 3.0
 Requires:	vte >= 0.38
-Requires:	xapps >= 1.0
+Requires:	xapps >= 3.8.0
 BuildArch:	noarch
 
 %description -n cinnamon-nemo-extension-terminal
@@ -474,16 +476,8 @@ cd ../nemo-pastebin
 %py3_build
 
 cd ../nemo-preview
-install -d m4
-%{__intltoolize}
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-silent-rules
-%{__make}
+%meson build
+%ninja_build -C build
 
 cd ../nemo-repairer
 install -d m4
@@ -529,7 +523,7 @@ cd ../nemo-terminal
 %py3_build
 cd ..
 
-%{__make} -C cinnamon-translations-%{version}
+%{__make} -C cinnamon-translations-%{translations_version}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -569,8 +563,7 @@ cd ../nemo-pastebin
 %py3_install
 cd ..
 
-%{__make} -C nemo-preview install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C nemo-preview/build
 
 %{__make} -C nemo-repairer install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -588,11 +581,10 @@ cd ..
 # drop useless .la
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/nemo/extensions-3.0/libnemo-*.la
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/nemo/extensions-3.0/libgtkhash-properties.la
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/nemo-preview/libnemo-preview-1.0.la
 
 #%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/nemo-python/
 
-cd cinnamon-translations-%{version}
+cd cinnamon-translations-%{translations_version}
 for f in usr/share/locale/*/LC_MESSAGES/nemo-extensions.mo ; do
 	install -D "$f" "$RPM_BUILD_ROOT/$f"
 done
@@ -739,7 +731,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/nemo-preview
 %{_datadir}/nemo-preview/gir-1.0
 %{_datadir}/nemo-preview/js
-%{_datadir}/nemo-preview/style
 %{_datadir}/dbus-1/services/org.nemo.Preview.service
 
 %files -n cinnamon-nemo-extension-repairer
