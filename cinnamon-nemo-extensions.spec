@@ -1,24 +1,22 @@
 # TODO: make gtkhash.spec with https://github.com/tristanheaven/gtkhash
 %define		nemo_ver	4.8.0
-%define		translations_version	4.8.3
+%define		translations_version	5.0.2
 Summary:	Extensions for Nemo file manager
 Summary(pl.UTF-8):	Rozszerzenia zarządcy plików Nemo
 Name:		cinnamon-nemo-extensions
-Version:	4.8.0
-Release:	4
+Version:	5.0.0
+Release:	1
 License:	GPL v2+, GPL v3+, LGPL v2
 Group:		X11/Applications
 #Source0Download: https://github.com/linuxmint/nemo-extensions/releases
 Source0:	https://github.com/linuxmint/nemo-extensions/archive/%{version}/nemo-extensions-%{version}.tar.gz
-# Source0-md5:	06f3eff72b6d4eb667d3223a82d9b7a6
+# Source0-md5:	4eea8736dd3a3119e8aced9e4cd28168
 #Source1Download: https://github.com/linuxmint/cinnamon-translations/releases
 Source1:	https://github.com/linuxmint/cinnamon-translations/archive/%{translations_version}/cinnamon-translations-%{translations_version}.tar.gz
-# Source1-md5:	a68529f0f1a6c7f8b693a81095bece96
+# Source1-md5:	6e40b7f545138907148af3377e628d63
 Patch0:		%{name}-pc.patch
-Patch1:		%{name}-ac.patch
 URL:		https://github.com/linuxmint/nemo-extensions
-BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.11
+BuildRequires:	avahi-glib-devel
 BuildRequires:	cinnamon-desktop-devel >= 3.0.0
 BuildRequires:	cinnamon-nemo-devel >= %{nemo_ver}
 BuildRequires:	cjs-devel >= 4.6.0
@@ -31,7 +29,6 @@ BuildRequires:	gcr-ui-devel >= 3.4.0
 BuildRequires:	gdk-pixbuf2-devel >= 2.23.0
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.38
-BuildRequires:	gnome-common
 BuildRequires:	gobject-introspection-devel >= 0.9.2
 BuildRequires:	gpgme-devel >= 1.2.0
 BuildRequires:	gstreamer-devel >= 1.0
@@ -40,14 +37,12 @@ BuildRequires:	gtk+3-devel >= 3.6
 BuildRequires:	gtk-doc
 BuildRequires:	gtk-webkit4-devel
 BuildRequires:	gtksourceview3-devel >= 3.0
-BuildRequires:	intltool >= 0.40.6
 BuildRequires:	libcryptui-devel
 BuildRequires:	libgnome-keyring-devel
 BuildRequires:	libmusicbrainz5-devel
 BuildRequires:	libnotify-devel >= 0.7.0
-BuildRequires:	libtool >= 2:2
 BuildRequires:	linux-libc-headers >= 7:2.6.38
-BuildRequires:	meson >= 0.42.0
+BuildRequires:	meson >= 0.49.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	perl-XML-Parser
 BuildRequires:	pkgconfig >= 1:0.22
@@ -214,22 +209,6 @@ Roller archive manager.
 To rozszerzenie dodane do menu kontekstowego w Nemo pozycje
 pozwalające na wykorzystanie funkcji kompresji i rozpakowywania
 zarządcy archiwów File Roller.
-
-%package -n cinnamon-nemo-extension-gtkhash
-Summary:	GtkHash extension for Nemo
-Summary(pl.UTF-8):	Rozszerzenie GtkHash dla Nemo
-License:	GPL v2+
-Group:		X11/Applications
-Requires(post,postun):	glib2 >= 1:2.38
-Requires:	%{name}-common = %{version}-%{release}
-Requires:	cinnamon-nemo >= %{nemo_ver}
-Requires:	glib2 >= 1:2.38
-
-%description -n cinnamon-nemo-extension-gtkhash
-Nemo GtkHash extension for computing message digests or checksums.
-
-%description -n cinnamon-nemo-extension-gtkhash -l pl.UTF-8
-Rozszerzenie Nemo GtkHash do obliczania skrótów lub sum kontrolnych.
 
 %package -n cinnamon-nemo-extension-image-converter
 Summary:	Nemo extension to mass resize images
@@ -403,7 +382,6 @@ Osadzone okno terminala dla Nemo.
 %prep
 %setup -q -n nemo-extensions-%{version} -a1
 %patch0 -p1
-%patch1 -p1
 
 %build
 cd nemo-python
@@ -418,56 +396,20 @@ cd ../nemo-compare
 %py3_build
 
 cd ../nemo-dropbox
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-static
-%{__make}
+%meson build
+%ninja_build -C build
 
 cd ../nemo-emblems
 %py3_build
 
 cd ../nemo-fileroller
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-static
-%{__make}
-
-cd ../nemo-gtkhash
-install -d m4
-%{__glib_gettextize}
-%{__intltoolize}
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--enable-linux-crypto \
-	--enable-nemo \
-	--disable-silent-rules \
-	--with-gtk=3.0
-%{__make}
+%meson build
+%ninja_build -C build
 
 cd ../nemo-image-converter
-install -d m4
-%{__glib_gettextize}
-%{__intltoolize}
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-silent-rules
-%{__make}
+%meson build \
+	--default-library=shared
+%ninja_build -C build
 
 cd ../nemo-media-columns
 %py3_build
@@ -480,44 +422,19 @@ cd ../nemo-preview
 %ninja_build -C build
 
 cd ../nemo-repairer
-install -d m4
-%{__glib_gettextize}
-%{__intltoolize}
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-static
-%{__make}
+%meson build \
+	--default-library=shared
+%ninja_build -C build
 
 cd ../nemo-seahorse
-%{__glib_gettextize}
-%{__intltoolize}
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	GNUPG=/usr/bin/gpg \
-	--disable-gpg-check \
-	--disable-silent-rules
-%{__make}
+%meson build \
+	--default-library=shared \
+	-Dsharing=true
+%ninja_build -C build
 
 cd ../nemo-share
-install -d m4
-%{__glib_gettextize}
-%{__intltoolize}
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-static
-%{__make}
+%meson build
+%ninja_build -C build
 
 cd ../nemo-terminal
 %py3_build
@@ -540,21 +457,15 @@ cd ../nemo-compare
 %py3_install
 cd ..
 
-%{__make} -C nemo-dropbox install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C nemo-dropbox/build
 
 cd nemo-emblems
 %py3_install
 cd ..
 
-%{__make} -C nemo-fileroller install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C nemo-fileroller/build
 
-%{__make} -C nemo-gtkhash install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-%{__make} -C nemo-image-converter install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C nemo-image-converter/build
 
 cd nemo-media-columns
 %py3_install
@@ -565,24 +476,15 @@ cd ..
 
 %ninja_install -C nemo-preview/build
 
-%{__make} -C nemo-repairer install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C nemo-repairer/build
 
-%{__make} -C nemo-seahorse install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C nemo-seahorse/build
 
-%{__make} -C nemo-share install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C nemo-share/build
 
 cd nemo-terminal
 %py3_install
 cd ..
-
-# drop useless .la
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/nemo/extensions-3.0/libnemo-*.la
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/nemo/extensions-3.0/libgtkhash-properties.la
-
-#%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/nemo-python/
 
 cd cinnamon-translations-%{translations_version}
 for f in usr/share/locale/*/LC_MESSAGES/nemo-extensions.mo ; do
@@ -593,7 +495,7 @@ cd ..
 # not supported by glibc
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ie,zgh}
 
-# common for nemo-audio-tab[py],nemo-compare[py],nemo-emblems[py],nemo-fileroller[so],nemo-gtkhash[so],nemo-image-converter[so],nemo-media-columns[py],nemo-pastebin[py],nemo-preview[so],nemo-repairer[so],nemo-seahorse[so],nemo-share[so],nemo-terminal[py]
+# common for nemo-audio-tab[py],nemo-compare[py],nemo-emblems[py],nemo-fileroller[so],nemo-image-converter[so],nemo-media-columns[py],nemo-pastebin[py],nemo-preview[so],nemo-repairer[so],nemo-seahorse[so],nemo-share[so],nemo-terminal[py]
 %find_lang nemo-extensions
 # not used(?), C part doesn't have defined domain, JS part uses "nemo-extensions" domain
 %find_lang nemo-preview
@@ -609,10 +511,10 @@ rm -rf $RPM_BUILD_ROOT
 %postun	-n cinnamon-nemo-extension-dropbox
 %update_icon_cache hicolor
 
-%post	-n cinnamon-nemo-extension-gtkhash
+%post	-n cinnamon-nemo-extension-media-columns
 %glib_compile_schemas
 
-%postun	-n cinnamon-nemo-extension-gtkhash
+%postun	-n cinnamon-nemo-extension-media-columns
 %glib_compile_schemas
 
 %post	-n cinnamon-nemo-extension-pastebin
@@ -637,7 +539,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files common -f nemo-extensions.lang
 %defattr(644,root,root,755)
-%doc README
+%doc Readme.md
 
 %files -n cinnamon-nemo-python
 %defattr(644,root,root,755)
@@ -676,7 +578,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc nemo-dropbox/{AUTHORS,README}
 %attr(755,root,root) %{_libdir}/nemo/extensions-3.0/libnemo-dropbox.so
 %{_datadir}/nemo-dropbox
-%{_iconsdir}/hicolor/*x*/apps/dropbox.png
+%{_iconsdir}/hicolor/symbolic/apps/nemo-dropbox-symbolic.svg
 
 %files -n cinnamon-nemo-extension-emblems
 %defattr(644,root,root,755)
@@ -688,15 +590,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc nemo-fileroller/README
 %attr(755,root,root) %{_libdir}/nemo/extensions-3.0/libnemo-fileroller.so
 
-%files -n cinnamon-nemo-extension-gtkhash
-%defattr(644,root,root,755)
-%doc nemo-gtkhash/{AUTHORS,NEWS,README}
-%attr(755,root,root) %{_bindir}/gtkhash
-%attr(755,root,root) %{_libdir}/nemo/extensions-3.0/libgtkhash-properties.so
-%{_datadir}/glib-2.0/schemas/app.gtkhash.gschema.xml
-%{_datadir}/glib-2.0/schemas/org.nemo.extensions.gtkhash.gschema.xml
-%{_datadir}/nemo-gtkhash
-
 %files -n cinnamon-nemo-extension-image-converter
 %defattr(644,root,root,755)
 %doc nemo-image-converter/{AUTHORS,NEWS,README}
@@ -706,6 +599,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -n cinnamon-nemo-extension-media-columns
 %defattr(644,root,root,755)
 %doc nemo-media-columns/{AUTHORS,MAINTAINERS,README}
+%attr(755,root,root) %{_bindir}/nemo-media-columns-prefs
+%{_datadir}/glib-2.0/schemas/org.nemo.extensions.nemo-media-columns.gschema.xml
 %{_datadir}/nemo-python/extensions/nemo-media-columns.py
 %{py3_sitescriptdir}/nemo_media_columns-%{version}-py*.egg-info
 
