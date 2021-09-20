@@ -391,7 +391,7 @@ Requires:	cinnamon-nemo-python = %{version}-%{release}
 Requires:	gtk+3 >= 3.8.4
 Requires:	python3-pygobject3 >= 3.0
 Requires:	vte >= 0.38
-Requires:	xapps >= 3.8.0
+Requires:	xapps >= 2.2.3
 BuildArch:	noarch
 
 %description -n cinnamon-nemo-extension-terminal
@@ -590,8 +590,8 @@ for f in usr/share/locale/*/LC_MESSAGES/nemo-extensions.mo ; do
 done
 cd ..
 
-# not supported by glibc 2.31
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ie
+# not supported by glibc
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ie,zgh}
 
 # common for nemo-audio-tab[py],nemo-compare[py],nemo-emblems[py],nemo-fileroller[so],nemo-gtkhash[so],nemo-image-converter[so],nemo-media-columns[py],nemo-pastebin[py],nemo-preview[so],nemo-repairer[so],nemo-seahorse[so],nemo-share[so],nemo-terminal[py]
 %find_lang nemo-extensions
