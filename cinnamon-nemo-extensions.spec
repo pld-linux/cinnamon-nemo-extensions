@@ -669,7 +669,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/nemo-compare
 %{_datadir}/nemo-compare/nemo-compare-preferences.py
 %{_datadir}/nemo-compare/utils.py*
-%{py3_sitescriptdir}/nemo_compare-%{version}-py?.??.egg-info/
+%{py3_sitescriptdir}/nemo_compare-%{version}-py*.egg-info
 
 %files -n cinnamon-nemo-extension-dropbox
 %defattr(644,root,root,755)
@@ -681,7 +681,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n cinnamon-nemo-extension-emblems
 %defattr(644,root,root,755)
 %{_datadir}/nemo-python/extensions/nemo-emblems.py
-%{py3_sitescriptdir}/nemo_emblems-%{version}-py?.??.egg-info/
+%{py3_sitescriptdir}/nemo_emblems-%{version}-py*.egg-info
 
 %files -n cinnamon-nemo-extension-fileroller
 %defattr(644,root,root,755)
