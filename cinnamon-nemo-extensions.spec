@@ -5,7 +5,7 @@ Summary:	Extensions for Nemo file manager
 Summary(pl.UTF-8):	Rozszerzenia zarządcy plików Nemo
 Name:		cinnamon-nemo-extensions
 Version:	4.8.0
-Release:	3
+Release:	4
 License:	GPL v2+, GPL v3+, LGPL v2
 Group:		X11/Applications
 #Source0Download: https://github.com/linuxmint/nemo-extensions/releases
