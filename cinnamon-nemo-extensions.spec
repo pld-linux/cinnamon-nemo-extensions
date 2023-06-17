@@ -4,7 +4,7 @@ Summary:	Extensions for Nemo file manager
 Summary(pl.UTF-8):	Rozszerzenia zarządcy plików Nemo
 Name:		cinnamon-nemo-extensions
 Version:	5.8.0
-Release:	1
+Release:	2
 License:	GPL v2+, GPL v3+, LGPL v2
 Group:		X11/Applications
 #Source0Download: https://github.com/linuxmint/nemo-extensions/releases
@@ -372,7 +372,7 @@ Requires:	cinnamon-nemo-python = %{version}-%{release}
 Requires:	gtk+3 >= 3.8.4
 Requires:	python3-pygobject3 >= 3.0
 Requires:	vte >= 0.38
-Requires:	xapps >= 2.8.0
+Requires:	xapps >= 2.6.0
 BuildArch:	noarch
 
 %description -n cinnamon-nemo-extension-terminal
@@ -495,7 +495,7 @@ done
 cd ..
 
 # not supported by glibc
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ie,zgh}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ie,mo,zgh}
 
 # common for nemo-audio-tab[py],nemo-compare[py],nemo-emblems[py],nemo-fileroller[so],nemo-image-converter[so],nemo-media-columns[py],nemo-pastebin[py],nemo-preview[so],nemo-repairer[so],nemo-seahorse[so],nemo-share[so],nemo-terminal[py]
 %find_lang nemo-extensions
