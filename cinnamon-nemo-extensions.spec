@@ -1,19 +1,18 @@
-# TODO: make gtkhash.spec with https://github.com/tristanheaven/gtkhash
-%define		nemo_ver	4.8.0
-%define		translations_version	5.0.2
+%define		nemo_ver	5.8.0
+%define		translations_version	5.8.1
 Summary:	Extensions for Nemo file manager
 Summary(pl.UTF-8):	Rozszerzenia zarządcy plików Nemo
 Name:		cinnamon-nemo-extensions
-Version:	5.0.0
+Version:	5.8.0
 Release:	1
 License:	GPL v2+, GPL v3+, LGPL v2
 Group:		X11/Applications
 #Source0Download: https://github.com/linuxmint/nemo-extensions/releases
 Source0:	https://github.com/linuxmint/nemo-extensions/archive/%{version}/nemo-extensions-%{version}.tar.gz
-# Source0-md5:	4eea8736dd3a3119e8aced9e4cd28168
+# Source0-md5:	6e33de921ce507c0939d062aa8de51d1
 #Source1Download: https://github.com/linuxmint/cinnamon-translations/releases
 Source1:	https://github.com/linuxmint/cinnamon-translations/archive/%{translations_version}/cinnamon-translations-%{translations_version}.tar.gz
-# Source1-md5:	6e40b7f545138907148af3377e628d63
+# Source1-md5:	b9ea707443c81e4340b0cb219d289130
 Patch0:		%{name}-pc.patch
 URL:		https://github.com/linuxmint/nemo-extensions
 BuildRequires:	avahi-glib-devel
@@ -35,25 +34,25 @@ BuildRequires:	gstreamer-devel >= 1.0
 BuildRequires:	gstreamer-plugins-base-devel >= 1.0
 BuildRequires:	gtk+3-devel >= 3.6
 BuildRequires:	gtk-doc
-BuildRequires:	gtk-webkit4-devel
-BuildRequires:	gtksourceview3-devel >= 3.0
+BuildRequires:	gtk-webkit4.1-devel >= 2.34
+BuildRequires:	gtksourceview4-devel >= 4.0.3
 BuildRequires:	libcryptui-devel
 BuildRequires:	libgnome-keyring-devel
 BuildRequires:	libmusicbrainz5-devel
 BuildRequires:	libnotify-devel >= 0.7.0
 BuildRequires:	linux-libc-headers >= 7:2.6.38
-BuildRequires:	meson >= 0.49.0
+BuildRequires:	meson >= 0.51.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	perl-XML-Parser
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python-pygobject3-common-devel
 BuildRequires:	python3-devel >= 1:3.2
-BuildRequires:	python3-distutils-extra
 BuildRequires:	python3-pygobject3-devel >= 3.0
 BuildRequires:	python3-setuptools
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.736
-BuildRequires:	xreader-devel
+# gtk-webkit4.1 based
+BuildRequires:	xreader-devel >= 3
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -282,6 +281,9 @@ License:	GPL v2+
 Group:		X11/Applications
 Requires:	%{name}-common = %{version}-%{release}
 Requires:	cinnamon-nemo >= %{nemo_ver}
+Requires:	gtk-webkit4.1 >= 2.34
+Requires:	gtksourceview4 >= 4.0.3
+Requires:	xreader-libs >= 3
 
 %description -n cinnamon-nemo-extension-preview
 Nemo Preview is a GtkClutter and Javascript-based quick previewer for
@@ -370,7 +372,7 @@ Requires:	cinnamon-nemo-python = %{version}-%{release}
 Requires:	gtk+3 >= 3.8.4
 Requires:	python3-pygobject3 >= 3.0
 Requires:	vte >= 0.38
-Requires:	xapps >= 2.2.3
+Requires:	xapps >= 2.8.0
 BuildArch:	noarch
 
 %description -n cinnamon-nemo-extension-terminal
@@ -429,7 +431,7 @@ cd ../nemo-repairer
 cd ../nemo-seahorse
 %meson build \
 	--default-library=shared \
-	-Dsharing=true
+	-Dsharing=enabled
 %ninja_build -C build
 
 cd ../nemo-share
