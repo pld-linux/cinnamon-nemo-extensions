@@ -1,18 +1,18 @@
-%define		nemo_ver	5.8.0
-%define		translations_version	5.8.1
+%define		nemo_ver	6.0.0
+%define		translations_version	6.0.2
 Summary:	Extensions for Nemo file manager
 Summary(pl.UTF-8):	Rozszerzenia zarządcy plików Nemo
 Name:		cinnamon-nemo-extensions
-Version:	5.8.0
-Release:	2
+Version:	6.0.1
+Release:	1
 License:	GPL v2+, GPL v3+, LGPL v2
 Group:		X11/Applications
 #Source0Download: https://github.com/linuxmint/nemo-extensions/releases
 Source0:	https://github.com/linuxmint/nemo-extensions/archive/%{version}/nemo-extensions-%{version}.tar.gz
-# Source0-md5:	6e33de921ce507c0939d062aa8de51d1
+# Source0-md5:	9a6ede415dcdad7423e992d6d8403748
 #Source1Download: https://github.com/linuxmint/cinnamon-translations/releases
 Source1:	https://github.com/linuxmint/cinnamon-translations/archive/%{translations_version}/cinnamon-translations-%{translations_version}.tar.gz
-# Source1-md5:	b9ea707443c81e4340b0cb219d289130
+# Source1-md5:	36552df46587be4e32ac311b8d7084e4
 Patch0:		%{name}-pc.patch
 URL:		https://github.com/linuxmint/nemo-extensions
 BuildRequires:	avahi-glib-devel
@@ -41,7 +41,7 @@ BuildRequires:	libgnome-keyring-devel
 BuildRequires:	libmusicbrainz5-devel
 BuildRequires:	libnotify-devel >= 0.7.0
 BuildRequires:	linux-libc-headers >= 7:2.6.38
-BuildRequires:	meson >= 0.51.0
+BuildRequires:	meson >= 0.56.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	perl-XML-Parser
 BuildRequires:	pkgconfig >= 1:0.22
@@ -499,10 +499,6 @@ cd ..
 
 # common for nemo-audio-tab[py],nemo-compare[py],nemo-emblems[py],nemo-fileroller[so],nemo-image-converter[so],nemo-media-columns[py],nemo-pastebin[py],nemo-preview[so],nemo-repairer[so],nemo-seahorse[so],nemo-share[so],nemo-terminal[py]
 %find_lang nemo-extensions
-# not used(?), C part doesn't have defined domain, JS part uses "nemo-extensions" domain
-%find_lang nemo-preview
-# not used actually(?), sources have "nemo-extensions" domain hardcoded
-%find_lang nemo-share
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -617,7 +613,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/48x48/apps/nemo-pastebin.png
 %{_iconsdir}/hicolor/scalable/apps/nemo-pastebin.svg
 
-%files -n cinnamon-nemo-extension-preview -f nemo-preview.lang
+%files -n cinnamon-nemo-extension-preview
 %defattr(644,root,root,755)
 %doc nemo-preview/{AUTHORS,README,TODO}
 %attr(755,root,root) %{_bindir}/nemo-preview
@@ -642,12 +638,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc nemo-seahorse/{AUTHORS,MAINTAINERS,NEWS,README}
 %attr(755,root,root) %{_bindir}/nemo-seahorse-tool
 %attr(755,root,root) %{_libdir}/nemo/extensions-3.0/libnemo-seahorse.so
-%{_desktopdir}/nemo-seahorse-pgp-*.desktop
-%{_datadir}/glib-2.0/schemas/org.nemo.plugins.seahorse*gschema.xml
+%{_datadir}/glib-2.0/schemas/org.nemo.plugins.seahorse*.gschema.xml
 %{_datadir}/nemo-seahorse
 %{_mandir}/man1/nemo-seahorse-tool.1*
 
-%files -n cinnamon-nemo-extension-share -f nemo-share.lang
+%files -n cinnamon-nemo-extension-share
 %defattr(644,root,root,755)
 %doc nemo-share/AUTHORS
 %{_libdir}/nemo/extensions-3.0/libnemo-share.so
