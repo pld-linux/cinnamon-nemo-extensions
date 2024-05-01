@@ -494,8 +494,8 @@ for f in usr/share/locale/*/LC_MESSAGES/nemo-extensions.mo ; do
 done
 cd ..
 
-# not supported by glibc
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ie,mo,zgh}
+# not supported by glibc 2.39
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ie,mo}
 
 # common for nemo-audio-tab[py],nemo-compare[py],nemo-emblems[py],nemo-fileroller[so],nemo-image-converter[so],nemo-media-columns[py],nemo-pastebin[py],nemo-preview[so],nemo-repairer[so],nemo-seahorse[so],nemo-share[so],nemo-terminal[py]
 %find_lang nemo-extensions
