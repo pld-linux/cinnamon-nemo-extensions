@@ -1,18 +1,18 @@
-%define		nemo_ver	6.0.0
-%define		translations_version	6.0.2
+%define		nemo_ver	6.2.0
+%define		translations_version	6.2.2
 Summary:	Extensions for Nemo file manager
 Summary(pl.UTF-8):	Rozszerzenia zarządcy plików Nemo
 Name:		cinnamon-nemo-extensions
-Version:	6.0.1
+Version:	6.2.0
 Release:	1
 License:	GPL v2+, GPL v3+, LGPL v2
 Group:		X11/Applications
 #Source0Download: https://github.com/linuxmint/nemo-extensions/releases
 Source0:	https://github.com/linuxmint/nemo-extensions/archive/%{version}/nemo-extensions-%{version}.tar.gz
-# Source0-md5:	9a6ede415dcdad7423e992d6d8403748
+# Source0-md5:	6a082de626d2ab1fb5cb07e5fe859f2a
 #Source1Download: https://github.com/linuxmint/cinnamon-translations/releases
 Source1:	https://github.com/linuxmint/cinnamon-translations/archive/%{translations_version}/cinnamon-translations-%{translations_version}.tar.gz
-# Source1-md5:	36552df46587be4e32ac311b8d7084e4
+# Source1-md5:	ca66b0eadc9416ef66384b3b278554ad
 Patch0:		%{name}-pc.patch
 URL:		https://github.com/linuxmint/nemo-extensions
 BuildRequires:	avahi-glib-devel
