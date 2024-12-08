@@ -1,0 +1,11 @@
+--- nemo-extensions-6.4.0/nemo-share/src/nemo-share.c.orig	2024-11-26 13:54:59.000000000 +0100
++++ nemo-extensions-6.4.0/nemo-share/src/nemo-share.c	2024-12-08 17:45:23.096606258 +0100
+@@ -32,8 +32,6 @@
+ #include <libnemo-extension/nemo-property-page-provider.h>
+ #include <libnemo-extension/nemo-name-and-desc-provider.h>
+ 
+-#include <libcinnamon-desktop/gnome-installer.h>
+-
+ #include "nemo-share.h"
+ 
+ #include <glib/gi18n-lib.h>
