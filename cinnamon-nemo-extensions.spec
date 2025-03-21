@@ -51,7 +51,7 @@ BuildRequires:	python3-devel >= 1:3.2
 BuildRequires:	python3-pygobject3-devel >= 3.0
 BuildRequires:	python3-setuptools
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	rpmbuild(macros) >= 2.042
 # gtk-webkit4.1 based
 BuildRequires:	xreader-devel >= 3
 BuildRequires:	zlib-devel
@@ -389,9 +389,9 @@ Osadzone okno terminala dla Nemo.
 
 %build
 cd nemo-python
-%meson build \
+%meson \
 	-Dgtk_doc=true
-%ninja_build -C build
+%meson_build
 
 cd ../nemo-audio-tab
 %py3_build
@@ -400,20 +400,20 @@ cd ../nemo-compare
 %py3_build
 
 cd ../nemo-dropbox
-%meson build
-%ninja_build -C build
+%meson
+%meson_build
 
 cd ../nemo-emblems
 %py3_build
 
 cd ../nemo-fileroller
-%meson build
-%ninja_build -C build
+%meson
+%meson_build
 
 cd ../nemo-image-converter
-%meson build \
+%meson \
 	--default-library=shared
-%ninja_build -C build
+%meson_build
 
 cd ../nemo-media-columns
 %py3_build
@@ -422,23 +422,23 @@ cd ../nemo-pastebin
 %py3_build
 
 cd ../nemo-preview
-%meson build
-%ninja_build -C build
+%meson
+%meson_build
 
 cd ../nemo-repairer
-%meson build \
+%meson \
 	--default-library=shared
-%ninja_build -C build
+%meson_build
 
 cd ../nemo-seahorse
-%meson build \
+%meson \
 	--default-library=shared \
 	-Dsharing=enabled
-%ninja_build -C build
+%meson_build
 
 cd ../nemo-share
-%meson build
-%ninja_build -C build
+%meson
+%meson_build
 
 cd ../nemo-terminal
 %py3_build
@@ -449,7 +449,7 @@ cd ..
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C nemo-python/build
+%meson_install -C nemo-python/build
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/cinnamon-nemo-python-%{version}
 cp -p nemo-python/examples/* $RPM_BUILD_ROOT%{_examplesdir}/cinnamon-nemo-python-%{version}
@@ -461,15 +461,15 @@ cd ../nemo-compare
 %py3_install
 cd ..
 
-%ninja_install -C nemo-dropbox/build
+%meson_install -C nemo-dropbox/build
 
 cd nemo-emblems
 %py3_install
 cd ..
 
-%ninja_install -C nemo-fileroller/build
+%meson_install -C nemo-fileroller/build
 
-%ninja_install -C nemo-image-converter/build
+%meson_install -C nemo-image-converter/build
 
 cd nemo-media-columns
 %py3_install
@@ -478,13 +478,13 @@ cd ../nemo-pastebin
 %py3_install
 cd ..
 
-%ninja_install -C nemo-preview/build
+%meson_install -C nemo-preview/build
 
-%ninja_install -C nemo-repairer/build
+%meson_install -C nemo-repairer/build
 
-%ninja_install -C nemo-seahorse/build
+%meson_install -C nemo-seahorse/build
 
-%ninja_install -C nemo-share/build
+%meson_install -C nemo-share/build
 
 cd nemo-terminal
 %py3_install
